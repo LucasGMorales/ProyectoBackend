@@ -43,23 +43,5 @@
     "thumbnail": "https://drcormillot.com.ar/wp-content/uploads/2018/12/NOTA-008-FOTO.jpg",
     "price": 700,
     "stock": 9
-  },
-  {
-    "title": "harina 0000",
-    "description": "Harina comun 0000",
-    "price": 3000,
-    "thumbnail": "https://imagenfalsaharina0000.com",
-    "code": "06",
-    "stock": 29,
-    "id": 6
-  },
-  {
-    "title": "Arroz Yamani",
-    "description": "Arroz yamani muy rico!",
-    "price": 2000,
-    "thumbnail": "https://imagenfalsarrozyamani.com",
-    "code": "07",
-    "stock": 12,
-    "id": 7
   }
 ]
