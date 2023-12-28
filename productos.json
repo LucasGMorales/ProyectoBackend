@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "code": "001",
+    "title": "Harina integral x1kg",
+    "description": "descripcion falsa 1",
+    "thumbnail": "https://paladear.com.ar/wp-content/uploads/2019/07/harina-integral.jpg",
+    "price": 900,
+    "stock": 18
+  },
+  {
+    "id": 2,
+    "code": "002",
+    "title": "Semillas de Chia x500gr",
+    "description": "descripcion falsa 2",
+    "thumbnail": "https://www.finedininglovers.com/es/sites/g/files/xknfdk1706/files/2021-08/semillas-de-chía©iStock.jpg",
+    "price": 1000,
+    "stock": 29
+  },
+  {
+    "id": 3,
+    "code": "003",
+    "title": "Fideos integrales x250gr",
+    "description": "descripcion falsa 3",
+    "thumbnail": "https://static.abc.es/media/bienestar/2021/02/11/pasta-integral-kUIE--1200x630@abc.jpg",
+    "price": 600,
+    "stock": 20
+  },
+  {
+    "id": 4,
+    "code": "004",
+    "title": "Frutos secos x500gr",
+    "description": "descripcion falsa 4",
+    "thumbnail": "https://images.ecestaticos.com/6a9HPGNIgXUu7ROOp81TuDce9WY=/0x107:2117x1300/1200x1200/filters:fill(white):format(jpg)/f.elconfidencial.com%2Foriginal%2Faa8%2F26e%2F5f1%2Faa826e5f1d9b1c2efa3faf8b58688558.jpg",
+    "price": 800,
+    "stock": 17
+  },
+  {
+    "id": 5,
+    "code": "005",
+    "title": "Pasas de uva x500gr",
+    "description": "descripcion falsa 5",
+    "thumbnail": "https://drcormillot.com.ar/wp-content/uploads/2018/12/NOTA-008-FOTO.jpg",
+    "price": 700,
+    "stock": 9
+  },
+  {
+    "title": "harina 0000",
+    "description": "Harina comun 0000",
+    "price": 3000,
+    "thumbnail": "https://imagenfalsaharina0000.com",
+    "code": "06",
+    "stock": 29,
+    "id": 6
+  },
+  {
+    "title": "Arroz Yamani",
+    "description": "Arroz yamani muy rico!",
+    "price": 2000,
+    "thumbnail": "https://imagenfalsarrozyamani.com",
+    "code": "07",
+    "stock": 12,
+    "id": 7
+  }
+]

@@ -1,13 +1,30 @@
 const ProductManager = require('./clases');
 
-const productManager = new ProductManager();
+const productManager = new ProductManager(); 
 
-productManager.addProduct("harina integral x500gr", "Harina Integral pura, cantidad 1 kilo", 2000, "https://paladear.com.ar/wp-content/uploads/2019/07/harina-integral.jpg", "01", 18);
-productManager.addProduct("Pasas de uva x500gr", "Pasas de uva, cantidad 500 gramos", 1300, "https://drcormillot.com.ar/wp-content/uploads/2018/12/NOTA-008-FOTO.jpg", "02", 22);
+// agregar productos
+productManager.addProduct({
+    title: "harina 0000",
+    description: "Harina comun 0000",
+    price: 3000,
+    thumbnail: "https://imagenfalsaharina0000.com",
+    code: "06",
+    stock: 29
+});
+
+productManager.addProduct({
+    title: "Arroz Yamani",
+    description: "Arroz yamani muy rico!",
+    price: 2000,
+    thumbnail: "https://imagenfalsarrozyamani.com",
+    code: "07",
+    stock: 12
+});
 
 console.log("Lista de productos:");
 
-const encontrarIdProducto = 2;
+// buscar producto x ID
+const encontrarIdProducto = 6;
 const foundProducto = productManager.getProductById(encontrarIdProducto);
 
 if (foundProducto) {
