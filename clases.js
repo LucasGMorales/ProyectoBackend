@@ -3,22 +3,22 @@ const fs = require('fs');
 class ProductManager {
     constructor() {
         this.path = 'productos.json';
-        this.nextId = 1;
+        this.productos = [];
         this.cargarProducto();
     }
 
     cargarProducto() {
         try {
+
             const data = fs.readFileSync(this.path, 'utf8');
             const parsedData = JSON.parse(data);
-
-            this.productos = parsedData;
-
+            this.productos = Array.isArray(parsedData) ? parsedData : [];
             const highestId = this.productos.reduce((maxId, producto) => Math.max(maxId, producto.id || 0), 0);
             this.nextId = highestId + 1;
 
         } catch (error) {
-            console.error("Error");
+            this.guardarProducto();
+            this.nextId = 1;
         }
     }
 
@@ -27,7 +27,7 @@ class ProductManager {
             const data = JSON.stringify(this.productos, null, 2);
             fs.writeFileSync(this.path, data, 'utf-8');
         } catch (error) {
-            console.error("Error");
+            console.error("Error al guardar productos:", error);
         }
     }
 
@@ -46,14 +46,10 @@ class ProductManager {
             console.log(`El producto con código ${producto.code} ha sido agregado correctamente!`);
         }
 
-        if (!producto.id) {
-            producto.id = this.nextId;
-            this.nextId++;
-            this.productos.push(producto);
-            this.guardarProducto();
-        } else {
-            this.productos.push(producto);
-        }
+        producto.id = this.nextId;
+        this.nextId++;
+        this.productos.push(producto);
+        this.guardarProducto();
     }
 
     getProducts() {
