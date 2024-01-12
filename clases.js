@@ -52,8 +52,14 @@ class ProductManager {
         this.guardarProducto();
     }
 
-    getProducts() {
-        return this.productos;
+
+    // getproducts modificado para que funcione app.js
+    getProducts(limit) {
+        if (limit) {
+            return this.productos.slice(0, limit);
+        } else {
+            return this.productos;
+        }
     }
 
     getProductById(id) {
