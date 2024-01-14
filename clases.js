@@ -3,7 +3,7 @@ const fs = require('fs');
 class ProductManager {
     constructor() {
         this.path = 'productos.json';
-        this.productos = [];
+        this.nextId = 1;
         this.cargarProducto();
     }
 
@@ -12,22 +12,22 @@ class ProductManager {
 
             const data = fs.readFileSync(this.path, 'utf8');
             const parsedData = JSON.parse(data);
-            this.productos = Array.isArray(parsedData) ? parsedData : [];
-            const highestId = this.productos.reduce((maxId, producto) => Math.max(maxId, producto.id || 0), 0);
-            this.nextId = highestId + 1;
-
+    
+            this.productos = parsedData;
+            
         } catch (error) {
-            this.guardarProducto();
-            this.nextId = 1;
+            console.error("Error");
         }
     }
+    
 
     guardarProducto() {
         try {
+
             const data = JSON.stringify(this.productos, null, 2);
             fs.writeFileSync(this.path, data, 'utf-8');
         } catch (error) {
-            console.error("Error al guardar productos:", error);
+            console.error("Error");
         }
     }
 
@@ -53,13 +53,8 @@ class ProductManager {
     }
 
 
-    // getproducts modificado para que funcione app.js
-    getProducts(limit) {
-        if (limit) {
-            return this.productos.slice(0, limit);
-        } else {
-            return this.productos;
-        }
+    getProducts() {
+        return this.productos;
     }
 
     getProductById(id) {
@@ -67,6 +62,7 @@ class ProductManager {
     }
 
     updateProduct(id, updatedProduct) {
+
         const index = this.productos.findIndex(producto => producto.id === id);
         if (index !== -1) {
             updatedProduct.id = id;
@@ -76,6 +72,7 @@ class ProductManager {
     }
 
     deleteProduct(id) {
+         
         const index = this.productos.findIndex(producto => producto.id === id);
         if (index !== -1) {
             this.productos.splice(index, 1);

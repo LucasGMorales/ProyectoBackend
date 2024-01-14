@@ -10,24 +10,30 @@ app.get('/', (req, res) => {
     res.send('aguante maxi');
 });
 
-app.get('/products', async (req, res) => {
-    await productManager.cargarProducto();
-    const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
-    const products = productManager.getProducts(limit);
-    res.json(products);
+app.get('/products', (req, res) => {
+
+    const limit = req.query.limit;
+    let productos = productManager.getProducts();
+
+    if (limit) {
+        productos = productos.slice(0, limit);
+    }
+
+    res.json(productos);
 });
 
-app.get('/products/:pid', async (req, res) => {
-    await productManager.cargarProducto();
+app.get('/products/:pid', (req, res) => {
+
     const pid = parseInt(req.params.pid);
-    const product = productManager.getProductById(pid);
-    if (product) {
-        res.json(product);
+    const producto = productManager.getProductById(pid);
+
+    if (producto) {
+        res.json(producto);
     } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
+        res.status(404).json({ error: "Producto no encontrado" });
     }
 });
 
 app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
