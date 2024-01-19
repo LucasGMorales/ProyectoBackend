@@ -1,4 +1,3 @@
-
 const express = require('express');
 const productRouters = require('./router/products.route');
 const cartRouters = require('./router/carts.route');

@@ -22,7 +22,7 @@ router.get('/:pid', (req, res) => {
     if (producto) {
         res.json(producto);
     } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
+        res.status(404).json({ error: 'producto no encontrado' });
     }
 });
 
@@ -36,7 +36,7 @@ router.put('/:pid', (req, res) => {
     const pid = parseInt(req.params.pid);
     const productoActualizado = req.body;
     productManager.updateProduct(pid, productoActualizado);
-    res.json({ mensaje: 'Producto actualizado correctamente' });
+    res.json({ mensaje: 'Producto actualizado' });
 });
 
 router.delete('/:pid', (req, res) => {
