@@ -1,0 +1,29 @@
+[
+    {
+        "title": "leche de almendras",
+        "description": "leche de almendras, 100% vegano",
+        "price": 2500,
+        "thumbnail": "https://imagenfalslechedealmendras.com",
+        "code": "08",
+        "stock": 22,
+        "id": 8
+    },
+    {
+        "title": "NotMayo",
+        "description": "Mayonesa vegana hecha a base de plantas",
+        "price": 3000,
+        "thumbnail": "https://imagenfalsanotmayo.com",
+        "code": "10",
+        "stock": 40,
+        "id": 10
+    },
+    {
+        "title": "Arroz Yamani",
+        "description": "Arroz yamani muy rico!",
+        "price": 2000,
+        "thumbnail": "https://imagenfalsarrozyamani.com",
+        "code": "06",
+        "stock": 12,
+        "id": 6
+    }
+]

@@ -9,36 +9,33 @@ class ProductManager {
 
     cargarProducto() {
         try {
-
             const data = fs.readFileSync(this.path, 'utf8');
             const parsedData = JSON.parse(data);
     
-            this.productos = parsedData;
-            
+            this.productos = parsedData || [];
         } catch (error) {
-            console.error("Error");
+            console.error("Error", error);
+            this.productos = [];
         }
     }
-    
 
     guardarProducto() {
         try {
-
             const data = JSON.stringify(this.productos, null, 2);
             fs.writeFileSync(this.path, data, 'utf-8');
         } catch (error) {
-            console.error("Error");
+            console.error("error", error);
         }
     }
 
     addProduct(producto) {
-        // validacion campos, testeado con node, al faltar un campo da el console log!
+        // Validación campos, testeado con node, al faltar un campo da el console log!
         if (!producto.title || !producto.description || !producto.price || !producto.thumbnail || !producto.code || !producto.stock) {
             console.log("Todos los campos son obligatorios");
             return;
         }
 
-        // validacion code, tambien testeado con node, al ser el mismo code da el console log!
+        // Validación code, también testeado con node, al ser el mismo code da el console log!
         if (this.productos.some(existingProduct => existingProduct.code === producto.code)) {
             console.log(`El producto con código ${producto.code} ya existe.`);
             return;
@@ -52,7 +49,6 @@ class ProductManager {
         this.guardarProducto();
     }
 
-
     getProducts() {
         return this.productos;
     }
@@ -62,7 +58,6 @@ class ProductManager {
     }
 
     updateProduct(id, updatedProduct) {
-
         const index = this.productos.findIndex(producto => producto.id === id);
         if (index !== -1) {
             updatedProduct.id = id;
@@ -72,7 +67,6 @@ class ProductManager {
     }
 
     deleteProduct(id) {
-         
         const index = this.productos.findIndex(producto => producto.id === id);
         if (index !== -1) {
             this.productos.splice(index, 1);
