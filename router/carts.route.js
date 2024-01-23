@@ -9,10 +9,11 @@ router.post('/', (req, res) => {
         products: []
     };
 
-    fs.writeFileSync('carrito.json', JSON.stringify(nuevoCarrito, null, 2), 'utf-8');
+    fs.writeFileSync(`carrito_${nuevoCarrito.id}.json`, JSON.stringify(nuevoCarrito, null, 2), 'utf-8');
     
-    res.json({ mensaje: 'Carrito creado correctamente' });
+    res.json({ mensaje: 'Carrito creado correctamente', idCarrito: nuevoCarrito.id });
 });
+
 
 router.get('/:cid', (req, res) => {
     const cid = req.params.cid;
@@ -35,7 +36,6 @@ router.post('/:cid/product/:pid', (req, res) => {
     try {
         const data = fs.readFileSync(carritoPath, 'utf8');
         const carrito = JSON.parse(data);
-
         const existingProduct = carrito.products.find(item => item.id === pid);
 
         if (existingProduct) {
@@ -46,7 +46,7 @@ router.post('/:cid/product/:pid', (req, res) => {
 
         fs.writeFileSync(carritoPath, JSON.stringify(carrito, null, 2), 'utf-8');
 
-        res.json({ mensaje: 'Producto agregado al carroto' });
+        res.json({ mensaje: 'Producto agregado al carrito' });
     } catch (error) {
         res.status(404).json({ error: 'Carrito no encontrado' });
     }

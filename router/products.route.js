@@ -22,7 +22,7 @@ router.get('/:pid', (req, res) => {
     if (producto) {
         res.json(producto);
     } else {
-        res.status(404).json({ error: 'producto no encontrado' });
+        res.status(404).json({ error: 'Producto no encontrado' });
     }
 });
 

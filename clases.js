@@ -28,6 +28,13 @@ class ProductManager {
         }
     }
 
+
+    getNextId() {
+        const maxId = this.productos.reduce((max, producto) => (producto.id > max ? producto.id : max), 0);
+        return maxId + 1;
+    }
+    
+
     addProduct(producto) {
         // Validación campos, testeado con node, al faltar un campo da el console log!
         if (!producto.title || !producto.description || !producto.price || !producto.thumbnail || !producto.code || !producto.stock) {
@@ -43,7 +50,7 @@ class ProductManager {
             console.log(`El producto con código ${producto.code} ha sido agregado correctamente!`);
         }
 
-        producto.id = this.nextId;
+        producto.id = this.getNextId();
         this.nextId++;
         this.productos.push(producto);
         this.guardarProducto();
@@ -63,16 +70,22 @@ class ProductManager {
             updatedProduct.id = id;
             this.productos[index] = updatedProduct;
             this.guardarProducto();
+        } else {
+            console.log(`producto con ID ${id} no encontrado.`);
         }
     }
+    
 
     deleteProduct(id) {
         const index = this.productos.findIndex(producto => producto.id === id);
         if (index !== -1) {
             this.productos.splice(index, 1);
             this.guardarProducto();
+        } else {
+            console.log(`Producto con ID ${id} no encontrado.`);
         }
     }
+    
 }
 
 module.exports = ProductManager;
