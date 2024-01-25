@@ -9,11 +9,10 @@ router.post('/', (req, res) => {
         products: []
     };
 
-    fs.writeFileSync(`carrito_${nuevoCarrito.id}.json`, JSON.stringify(nuevoCarrito, null, 2), 'utf-8');
-    
-    res.json({ mensaje: 'Carrito creado correctamente', idCarrito: nuevoCarrito.id });
-});
+    fs.writeFileSync('carrito.json', JSON.stringify(nuevoCarrito, null, 2), 'utf-8');
 
+    res.json({ mensaje: 'Carrito creado correctamente' });
+});
 
 router.get('/:cid', (req, res) => {
     const cid = req.params.cid;

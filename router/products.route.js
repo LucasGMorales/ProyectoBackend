@@ -33,10 +33,14 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const productoActualizado = req.body;
-    productManager.updateProduct(pid, productoActualizado);
-    res.json({ mensaje: 'Producto actualizado' });
+    try {
+        const pid = parseInt(req.params.pid);
+        const productoActualizado = req.body;
+        productManager.updateProduct(pid, productoActualizado);
+        res.json({ mensaje: `El producto con id: ${pid} se actualizo correctamente` });
+    } catch (error) {
+        res.status(404).json({ error: `El producto con el id: ${pid} no existe.` });
+    }
 });
 
 router.delete('/:pid', (req, res) => {

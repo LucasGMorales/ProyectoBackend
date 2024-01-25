@@ -66,12 +66,18 @@ class ProductManager {
 
     updateProduct(id, updatedProduct) {
         const index = this.productos.findIndex(producto => producto.id === id);
+    
         if (index !== -1) {
+            // verifica que haya un campo
+            if (Object.keys(updatedProduct).length === 0) {
+                throw new Error('Se debe proporcionar al menos un campo para actualizar.');
+            }
+    
             updatedProduct.id = id;
-            this.productos[index] = updatedProduct;
+            this.productos[index] = { ...this.productos[index], ...updatedProduct };
             this.guardarProducto();
         } else {
-            console.log(`producto con ID ${id} no encontrado.`);
+            throw new Error('Producto no encontrado');
         }
     }
     
