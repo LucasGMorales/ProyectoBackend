@@ -4,6 +4,7 @@ const ProductManager = require('../clases');
 const router = express.Router();
 const productManager = new ProductManager();
 
+
 router.get('/', (req, res) => {
     const limit = req.query.limit;
     let productos = productManager.getProducts();
@@ -28,16 +29,17 @@ router.get('/:pid', (req, res) => {
 
 router.post('/', (req, res) => {
     const nuevoProducto = req.body;
-    productManager.addProduct(nuevoProducto);
+    productManager.addProduct(nuevoProducto, io);
     res.json({ mensaje: 'Producto agregado' });
 });
 
 router.put('/:pid', (req, res) => {
+    let pid;
     try {
-        const pid = parseInt(req.params.pid);
+        pid = parseInt(req.params.pid);
         const productoActualizado = req.body;
         productManager.updateProduct(pid, productoActualizado);
-        res.json({ mensaje: `El producto con id: ${pid} se actualizo correctamente` });
+        res.json({ mensaje: `El producto con id: ${pid} se actualizó correctamente` });
     } catch (error) {
         res.status(404).json({ error: `El producto con el id: ${pid} no existe.` });
     }
@@ -45,8 +47,13 @@ router.put('/:pid', (req, res) => {
 
 router.delete('/:pid', (req, res) => {
     const pid = parseInt(req.params.pid);
-    productManager.deleteProduct(pid);
-    res.json({ mensaje: 'Producto eliminado' });
+    const eliminado = productManager.deleteProduct(pid);
+
+    if (eliminado) {
+        res.json({ mensaje: 'Producto eliminado' });
+    } else {
+        res.status(404).json({ error: 'Producto no encontrado' });
+    }
 });
 
 module.exports = router;

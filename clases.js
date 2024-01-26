@@ -48,6 +48,7 @@ class ProductManager {
             return;
         } else {
             console.log(`El producto con código ${producto.code} ha sido agregado correctamente!`);
+            io.emit('nuevoProducto');
         }
 
         producto.id = this.getNextId();
