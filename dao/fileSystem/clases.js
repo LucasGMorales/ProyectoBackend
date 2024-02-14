@@ -1,12 +1,13 @@
 const fs = require('fs');
 
 class ProductManager {
-    constructor() {
+    constructor(io) {
+        this.io = io;
         this.path = 'productos.json';
         this.nextId = 1;
         this.cargarProducto();
     }
-
+    
     cargarProducto() {
         try {
             const data = fs.readFileSync(this.path, 'utf8');

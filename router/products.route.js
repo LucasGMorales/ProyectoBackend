@@ -1,8 +1,10 @@
 const express = require('express');
-const ProductManager = require('../clases');
+//const ProductManager = require('../dao/fileSystem/clases');
+const ProductManager = require('../dao/db/productsManager');
 
 const router = express.Router();
 const productManager = new ProductManager();
+const productManagerMongo = new ProductManager();
 
 
 router.get('/', (req, res) => {
@@ -29,7 +31,7 @@ router.get('/:pid', (req, res) => {
 
 router.post('/', (req, res) => {
     const nuevoProducto = req.body;
-    productManager.addProduct(nuevoProducto, io);
+    productManagerMongo.addProduct(nuevoProducto, io);
     res.json({ mensaje: 'Producto agregado' });
 });
 
