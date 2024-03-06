@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const ProductManager = require('../dao/db/productsManager');
+const CartManager = require('../dao/db/cartManager');
 
 const productManager = new ProductManager();
+const cartManager = new CartManager();
 
 router.get('/products', async (req, res) => {
     try {
@@ -37,18 +39,17 @@ router.get('/products', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
     }
+});
 
-    router.get('/carts/:cid', async (req, res) => {
-        try {
-            const cartId = req.params.cid;
-            const cartDetails = await cartManager.getCartDetails(cartId);
-    
-            res.render('cart', { cart: cartDetails });
-        } catch (error) {
-            res.status(500).json({ error: 'Internal server error' });
-        }
-    });
+router.get('/carts/:cid', async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        const cartDetails = await cartManager.getCartDetails(cartId);
 
+        res.render('cart', { cart: cartDetails });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 module.exports = router;

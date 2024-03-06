@@ -1,27 +1,29 @@
 const express = require('express');
-const ProductManager = require('../dao/db/productsManager');
-
 const router = express.Router();
-const productManager = new ProductManager();
+const Product = require('../models/product');
+
 router.get('/', async (req, res) => {
     try {
         const { limit = 10, page = 1, sort = '', query = '' } = req.query;
-        
-        const result = await productManager.getProducts({}, page, limit, sort, query);
+        const options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: sort ? { [sort]: 1 } : null 
+        };
 
-        const totalPages = Math.ceil(result.totalCount / limit);
+        const result = await Product.paginate({ title: { $regex: query, $options: 'i' } }, options);
+
+        const totalPages = Math.ceil(result.totalDocs / limit);
         const hasNextPage = page < totalPages;
         const hasPrevPage = page > 1;
-
         const prevPage = hasPrevPage ? page - 1 : null;
         const nextPage = hasNextPage ? page + 1 : null;
-
         const prevLink = hasPrevPage ? `/api/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${query}` : null;
         const nextLink = hasNextPage ? `/api/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${query}` : null;
 
         res.json({
             status: 'success',
-            payload: result.products,
+            payload: result.docs,
             totalPages,
             prevPage,
             nextPage,
@@ -32,52 +34,57 @@ router.get('/', async (req, res) => {
             nextLink
         });
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 
-
-router.get('/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const producto = productManager.getProductById(pid);
-
-    if (producto) {
-        res.json(producto);
-    } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
+router.get('/:pid', async (req, res) => {
+    const pid = req.params.pid;
+    try {
+        const product = await Product.findById(pid);
+        if (!product) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 
 router.post('/', async (req, res) => {
+    const productData = req.body;
     try {
-        const nuevoProducto = req.body;
-        await productManager.addProduct(nuevoProducto);
-        res.json({ mensaje: 'Producto agregado' });
+        const newProduct = await Product.create(productData);
+        res.status(201).json(newProduct);
     } catch (error) {
-        res.status(500).json({ error: 'Error al agregar el producto' });
+        res.status(500).json({ error: 'Error al crear el producto' });
     }
 });
 
-router.put('/:pid', (req, res) => {
-    let pid;
+router.put('/:pid', async (req, res) => {
+    const pid = req.params.pid;
+    const updatedFields = req.body;
     try {
-        pid = parseInt(req.params.pid);
-        const productoActualizado = req.body;
-        productManager.updateProduct(pid, productoActualizado);
-        res.json({ mensaje: `El producto con id: ${pid} se actualizó correctamente` });
+        const updatedProduct = await Product.findByIdAndUpdate(pid, updatedFields, { new: true });
+        if (!updatedProduct) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.json(updatedProduct);
     } catch (error) {
-        res.status(404).json({ error: `El producto con el id: ${pid} no existe.` });
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 
-router.delete('/:pid', (req, res) => {
-    const pid = parseInt(req.params.pid);
-    const eliminado = productManager.deleteProduct(pid);
-
-    if (eliminado) {
-        res.json({ mensaje: 'Producto eliminado' });
-    } else {
-        res.status(404).json({ error: 'Producto no encontrado' });
+router.delete('/:pid', async (req, res) => {
+    const pid = req.params.pid;
+    try {
+        const deletedProduct = await Product.findByIdAndDelete(pid);
+        if (!deletedProduct) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.json({ mensaje: 'Producto eliminado correctamente' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 

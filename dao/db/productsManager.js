@@ -1,9 +1,7 @@
 const Product = require("./models/products");
 
-
 class ProductManager {
-    constructor() {
-    }
+    constructor() {}
 
     async addProduct(title, description, price, thumbnail, code, stock, id) {
         try {
@@ -15,41 +13,36 @@ class ProductManager {
                 code: code,
                 stock: stock,
             });
-            console.log("Producto Añadido");
+            console.log("Producto añadido correctamente");
         } catch (error) {
             console.log("Error al añadir producto:", error);
+            throw error;
         }
     }
-    
-    
-    
 
-    async getProducts(filters = {}, page = 1, limit = 10, sort = {}) {
+    async getProducts(filters = {}, pageNumber = 1, pageSize = 10, sort = {}) {
         try {
-            const query = Product.find(filters);
-        
-            const skip = (page - 1) * limit;
-            query.skip(skip).limit(limit);
-    
-            if (sort) {
-                query.sort(sort);
-            }
-        
-            const products = await query.exec();
-            return products;
+            const options = {
+                page: pageNumber,
+                limit: pageSize,
+                sort: sort
+            };
+
+            const result = await Product.paginate(filters, options);
+            return result;
         } catch (error) {
             console.log("Error al obtener productos:", error);
-            return [];
+            throw error;
         }
     }
-    
+
     async getProductById(id) {
         try {
             const product = await Product.findById(id);
             return product;
         } catch (error) {
             console.log("Error al obtener producto por ID:", error);
-            return null;
+            throw error;
         }
     }
 
